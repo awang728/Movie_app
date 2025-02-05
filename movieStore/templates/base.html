@@ -2,7 +2,7 @@
 <html>
 <head>
     <h1>
-	<span style="text-align: left; display: inline-block; width: 30%;">Jamante</span>
+	<span style="text-align: left; display: inline-block; width: 30%;">GT Movie Store</span>
         <span style="text-align: right; display: inline-block; width: 66%;font-size: 25px; font-weight: normal;"> {{ user.username }}</span>
                            
     </h1>
@@ -64,12 +64,6 @@
         <ul>
             <li><a href="http://127.0.0.1:8000">Home</a></li>
 	    {% if user.is_authenticated %}
-	    <li><a href="http://127.0.0.1:8000/homepage/">Products</a></li>
-	    {% endif %}
-            <li><a href="http://127.0.0.1:8000/about/">About</a></li>
-            <li><a href="http://127.0.0.1:8000/contact/">Contact</a></li>
-	    {% if user.is_authenticated %}
-	    <li><a href="http://127.0.0.1:8000/cart/{{ x.Cart_ID }}">Cart</a></li>
 	    <li><a href="http://127.0.0.1:8000/accounts/password_change">Change Password</a><li>
 	    <li>
 		<form method="post" action="http://127.0.0.1:8000/accounts/logout/">
