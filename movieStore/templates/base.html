@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <h1>
+	<span style="text-align: left; display: inline-block; width: 30%;">Jamante</span>
+        <span style="text-align: right; display: inline-block; width: 66%;font-size: 25px; font-weight: normal;"> {{ user.username }}</span>
+                           
+    </h1>
+    <title>Jamante</title>
+    <style>
+        /* Basic styling for the navigation bar */
+        .navbar {
+            background-color: #808080;
+            overflow: hidden;
+        }
+
+        .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar li {
+            float: left;
+        }
+
+        .navbar li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .navbar li a:hover {
+            background-color: #6a6a6a;
+        }
+	.buttonToLink{
+	   background: none;
+	   border: none;
+	   color: white;
+	   font-family: Times New Roman;
+	   font-size:16px;
+	   padding: 14px 16px;
+	   background-color: #808080;
+           overflow: hidden;
+	}
+
+	.buttonToLink:hover{
+	   background: none;
+ 	   background-color: #6a6a6a;
+	}
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation bar -->
+    <div class="navbar clearfix">
+        
+        <ul>
+            <li><a href="http://127.0.0.1:8000">Home</a></li>
+	    {% if user.is_authenticated %}
+	    <li><a href="http://127.0.0.1:8000/homepage/">Products</a></li>
+	    {% endif %}
+            <li><a href="http://127.0.0.1:8000/about/">About</a></li>
+            <li><a href="http://127.0.0.1:8000/contact/">Contact</a></li>
+	    {% if user.is_authenticated %}
+	    <li><a href="http://127.0.0.1:8000/cart/{{ x.Cart_ID }}">Cart</a></li>
+	    <li><a href="http://127.0.0.1:8000/accounts/password_change">Change Password</a><li>
+	    <li>
+		<form method="post" action="http://127.0.0.1:8000/accounts/logout/">
+    			{% csrf_token %}
+    			<button type="submit" class="navbar buttonToLink" >Logout</button>
+		</form>
+            </li>
+	    {% else %}
+	    <li><a href="http://127.0.0.1:8000/accounts/login">Login</a></li>
+            <li><a href="http://127.0.0.1:8000/signup">Signup</a></li>
+	    {% endif %}
+        </ul>
+        
+    </div>
+
+    <hr>
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
