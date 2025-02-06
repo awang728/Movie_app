@@ -1,0 +1,15 @@
+<form method="get" action="{% url 'movieStore:index' %}">
+    <input type="text" name="q" placeholder="Search for a movie..." value="{{ request.GET.q }}">
+    <button type="submit">Search</button>
+</form>
+
+{% if movie_list %}
+    {% for movie in movie_list %}
+<div><a href="{% url 'movieStore:detail' movie.id %}">{{ movie.movie_name }}</a></div>    {% endfor %}
+{% else %}
+    <p>No movies found.</p>
+{% endif %}
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'movieStore/style.css' %}">
