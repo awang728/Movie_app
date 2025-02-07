@@ -10,9 +10,9 @@ class Movie(models.Model):
     id = models.AutoField(primary_key=True)
     movie_name = models.CharField(max_length=100)
     release_date = models.DateField('release date')
-    price = models.IntegerField()
+    price = models.IntegerField(default=0)
     description = models.TextField(default='Not currently Available.')
-    image = models.ImageField(upload_to='movie_images/')
+    image = models.ImageField(upload_to='movie_images/', default='movie_images/default.jpg')
    
     def __str__(self):
         return self.movie_name

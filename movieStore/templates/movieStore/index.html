@@ -1,3 +1,6 @@
+{% extends 'base.html' %}
+
+{% block content %}
 <form method="get" action="{% url 'movieStore:index' %}">
     <input type="text" name="q" placeholder="Search for a movie..." value="{{ request.GET.q }}">
     <button type="submit">Search</button>
@@ -13,3 +16,5 @@
 {% load static %}
 
 <link rel="stylesheet" href="{% static 'movieStore/style.css' %}">
+
+{% endblock %}
