@@ -3,6 +3,8 @@ from django.urls import path, include
 from . import views
 from .views import signup, cart, add_movie_to_cart
 
+
+app_name = "movieStore"
 urlpatterns = [
 
     path("<int:pk>/", views.DetailView.as_view(), name="detail"),
