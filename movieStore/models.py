@@ -1,18 +1,36 @@
+import datetime
+from django.contrib import admin
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import User
 
 
+# Create your models here.
 class Movie(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=255)
+    movie_name = models.CharField(max_length=100)
+    release_date = models.DateField('release date')
     price = models.IntegerField()
     description = models.TextField()
     image = models.ImageField(upload_to='movie_images/')
-
+   
     def __str__(self):
-        return str(self.id) + ' - ' + self.name
+        return self.movie_name
 
+    @admin.display(
+        boolean=True,
+        ordering='release_date',
+        description="Recent release?"
+    )
+    def was_released_recently(self):
+        now = timezone.now().date()
+        return now - datetime.timedelta(days=365) <= self.release_date
 
+class Cart(models.Model):
+    userName = models.ForeignKey(User, on_delete=models.CASCADE)
+    movie_name = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+    
 class Review(models.Model):
     id = models.AutoField(primary_key=True)
     comment = models.CharField(max_length=255)
@@ -24,4 +42,3 @@ class Review(models.Model):
 
     def __str__(self):
         return str(self.id) + ' - ' + self.movie.name
-
