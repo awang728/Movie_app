@@ -1,6 +1,7 @@
 
 from django.urls import path, include
 from . import views
+from .views import signup, cart, add_movie_to_cart
 
 urlpatterns = [
 

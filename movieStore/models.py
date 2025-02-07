@@ -11,7 +11,7 @@ class Movie(models.Model):
     movie_name = models.CharField(max_length=100)
     release_date = models.DateField('release date')
     price = models.IntegerField()
-    description = models.TextField()
+    description = models.TextField(default='Not currently Available.')
     image = models.ImageField(upload_to='movie_images/')
    
     def __str__(self):

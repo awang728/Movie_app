@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponse  
 from django.contrib.auth import login, authenticate  
-from core.forms import UserCreationForm
+from .forms import UserCreationForm
 from django.utils import timezone
 from django.db.models import F
 from django.http import HttpResponseRedirect
@@ -11,7 +11,7 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 
-from .models import Movie
+from .models import Movie, Cart
 
 
 # Create your views here.
@@ -21,13 +21,13 @@ def home(request):
 
 
 def signup(request):
-    if request.method == 'POST':  
-        form = UserCreationForm(request.POST)  
-        if form.is_valid():  
-            form.save()  
-            return redirect('home')
-    else:  
-        form = UserCreationForm()    
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    else:
+        form = UserCreationForm()
     return render(request, 'registration/signup.html', {'form':form})
 
 
@@ -46,18 +46,20 @@ class DetailView(generic.DetailView):
     model = Movie
     template_name = "movieStore/detail.html"
 # Tisha views
+"""
 def signup(request):
     if (request.method=='POST'):
-        form=UserCreationForm(request.Post)
+        form=UserCreationForm(request.POST)
         if form.is_valid():
             user=form.save()
             login(request,user)
             form.save()
             return redirect('home')
-    elif (request.method=='GET'):
+    else:
         form=UserCreationForm()
-        return render(request, 'Mymovies/signup.html', {'form':form})
+        return render(request, 'registration/signup.html', {'form':form})
 #Used chatGPT for help on this method
+"""
 def add_movie_to_cart(request, movie_id):
     if request.user.is_authenticated:
         movie = Movie.objects.get(id=movie_id)
@@ -71,6 +73,6 @@ def add_movie_to_cart(request, movie_id):
 def cart(request):
     if request.user.is_authenticated:
         cart_items = Cart.objects.filter(user=request.user)
-        return render(request, 'movies/cart.html', {'cart_items': cart_items})
+        return render(request, 'cart.html', {'cart_items': cart_items})
     else:
         return redirect('signup')
