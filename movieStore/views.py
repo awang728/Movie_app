@@ -46,20 +46,17 @@ class DetailView(generic.DetailView):
     model = Movie
     template_name = "movieStore/detail.html"
 # Tisha views
-"""
 def signup(request):
-    if (request.method=='POST'):
-        form=UserCreationForm(request.POST)
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
         if form.is_valid():
-            user=form.save()
-            login(request,user)
             form.save()
-            return redirect('home')
+            return redirect('index')
     else:
-        form=UserCreationForm()
-        return render(request, 'registration/signup.html', {'form':form})
+        form = UserCreationForm()
+    return render(request, 'registration/signup.html', {'form':form})
 #Used chatGPT for help on this method
-"""
+
 def add_movie_to_cart(request, movie_id):
     if request.user.is_authenticated:
         movie = Movie.objects.get(id=movie_id)
