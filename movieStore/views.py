@@ -1,14 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import AuthenticationForm
-from django.http import HttpResponse  
-from django.contrib.auth import login, authenticate  
-from .forms import UserCreationForm
-from django.utils import timezone
-from django.db.models import F
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
-from django.urls import reverse
+
+from django.shortcuts import  render
 from django.views import generic
 
 from .models import Movie, Cart
@@ -33,17 +26,7 @@ class IndexView(generic.ListView):
 class DetailView(generic.DetailView):
     model = Movie
     template_name = "movieStore/detail.html"
-# Tisha views
-def signup(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('index')
-    else:
-        form = UserCreationForm()
-    return render(request, 'registration/signup.html', {'form':form})
-#Used chatGPT for help on this method
+
 
 def add_movie_to_cart(request, movie_id):
     if request.user.is_authenticated:
