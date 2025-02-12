@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <h1>
-	<span style="text-align: left; display: inline-block; width: 30%;">GT Movie Store</span>
-        <span style="text-align: right; display: inline-block; width: 66%;font-size: 25px; font-weight: normal;"> {{ user.username }}</span>
-                           
-    </h1>
-    <title>GT Movie Store</title>
+    <div style = "display: flex; align-items: center">
+	<span style="display: flex; align-items: center; width: auto; height: 80px; font-size: 55px">
+        <img style = "height: 55px; margin-right: 20px" src="../static/movieStore/GTlogo.jpg" alt = "GT Logo">
+        Movies
+    </span>
+        <span style="display: flex; align-items: center; float: left; width: 65%; height: 50px"> {{ user.username }}</span>
+    </div>
+    <title>GT Movies</title>
     <style>
         /* Basic styling for the navigation bar */
         .navbar {
@@ -78,8 +80,6 @@
         </ul>
         
     </div>
-
-    <hr>
     {% block content %}
     {% endblock %}
 </body>

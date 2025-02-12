@@ -7,12 +7,21 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Movie(models.Model):
+    rating_choices = [
+        ('G', 'G'),
+        ('PG', 'PG'),
+        ('PG-13', 'PG-13'),
+        ('R', 'R'),
+        ('NC-17', 'NC-17')
+    ]
+
     id = models.AutoField(primary_key=True)
     movie_name = models.CharField(max_length=100)
-    release_date = models.DateField('release date')
-    price = models.IntegerField(default=0)
-    description = models.TextField(default='Not currently Available.')
+    release_year = models.IntegerField('release date', default=datetime.date.today().year)
+    rating = models.CharField(choices = rating_choices, default='PG', max_length=5)
     image = models.ImageField(upload_to='movie_images/', default='movie_images/default.jpg')
+    description = models.TextField()
+    dollar_price = models.DecimalField(max_digits=4, decimal_places=2, default=10.00)
    
     def __str__(self):
         return self.movie_name

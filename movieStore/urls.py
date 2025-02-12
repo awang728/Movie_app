@@ -12,5 +12,5 @@ urlpatterns = [
     path('cart/', cart, name='cart'),
 
     path('',views.home,name='home'),
-    path('index', views.IndexView.as_view(), name="index"),
+    path('movies', views.IndexView.as_view(), name="movies"),
 ]

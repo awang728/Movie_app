@@ -14,14 +14,14 @@ def home(request):
 
 # Create your views here.
 class IndexView(generic.ListView):
-    template_name = "movieStore/index.html"
+    template_name = "movieStore/movies.html"
     context_object_name = "movie_list"
 
     def get_queryset(self):
         query = self.request.GET.get('q')
         if query:
-            return Movie.objects.filter(movie_name__icontains=query)
-        return Movie.objects.all()
+            return Movie.objects.filter(movie_name__icontains=query).order_by('movie_name')
+        return Movie.objects.all().order_by('movie_name')
 
 class DetailView(generic.DetailView):
     model = Movie

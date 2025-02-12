@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div id = "searchbar">
+    <form method="get" action="{% url 'movieStore:movies' %}">
+        <input style = "width: 400px" type="text" name="q" class = "searching"
+               placeholder="Search for a movie..." value="{{ request.GET.q }}">
+        <button type="submit" class = "searching">Search</button>
+    </form>
+    </div>
+
+{% if movie_list %}
+    {% for movie in movie_list %}
+<div style = "height: 400px; width: 250px; margin: 15px 20px 30px 20px;" class = "listOfMovies">
+    <img class = "movieImg" src="{{ movie.image.url }}" alt="{{ movie.movie_name }}">
+    <h2 class = "inlist">{{ movie.movie_name }}</h2>
+    <!-- <a href="{% url 'movieStore:detail' movie.id %}">{{ movie.movie_name }}</a> -->
+    <p class = "inlist">{{ movie.release_year }} ⦁ {{ movie.rating }}</p>
+    <p class = "inlist">${{ movie.dollar_price }}</p>
+</div>    {% endfor %}
+{% else %}
+    <div><p>No movies found with '{{ request.GET.q }}'.</p></div>
+{% endif %}
+
+{% load static %}
+    <link rel="stylesheet" href="{% static 'movieStore/style.css' %}">
+    <link rel="stylesheet" href="{% static 'movieStore/movies.css' %}">
+
+{% endblock %}
