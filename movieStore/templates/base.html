@@ -1,86 +1,304 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <h1>
-	<span style="text-align: left; display: inline-block; width: 30%;">GT Movie Store</span>
-        <span style="text-align: right; display: inline-block; width: 66%;font-size: 25px; font-weight: normal;"> {{ user.username }}</span>
-                           
-    </h1>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GT Movie Store</title>
     <style>
-        /* Basic styling for the navigation bar */
-        .navbar {
-            background-color: #808080;
-            overflow: hidden;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
-        .navbar ul {
-            list-style-type: none;
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #282828;
+            color: white;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 50px 20px;
+            background-color: #121212;
+            background-image: url("{% static 'images/banner.png' %}");
+            background-size: 70%;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 26px;
+            font-weight: bold;
+            font-family: 'Brush Script MT', cursive;;
+        }
+
+        .user-info {
+            font-size: 20px; /* Increase size */
+            font-weight: 600; /* Make it bold */
+            text-shadow: 0px 0px 8px rgba(0, 200, 255, 0.8); /* Light blue glow */
+            background: rgba(255, 255, 255, 0.1); /* Slight contrast */
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+
+
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: center;
+            background-color: #121212;
+            padding: 10px 0;
+            width: 100%;
+            transition: all 0.3s ease-in-out; /* Smooth transition */
+        }
+
+        .navbar.fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000; /* Keeps it above other elements */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Adds slight shadow */
+        }
+
+
+        .navbar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
         }
 
         .navbar li {
-            float: left;
+            margin: 0 15px;
         }
 
-        .navbar li a {
-            display: block;
+
+
+
+        /* Mobile Menu */
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+            background: none;
+            border: none;
             color: white;
-            text-align: center;
-            padding: 14px 16px;
+        }
+        .nav-link, .buttonToLink {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            padding: 10px 15px;
+            text-shadow: 0px 0px 8px rgba(0, 200, 255, 0.8); /* Light blue glow */
+            text-decoration: none;
+            cursor: pointer;
+            width: auto;
+            font-family: 'Poppins', sans-serif;
+            font-family: inherit;
+            display: inline-block;
+            border-radius: 5px; /* Ensures buttons have rounded corners */
+            transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+        }
+
+        /* Ensure consistent hover effect */
+        .nav-link:hover, .buttonToLink:hover {
+            background-color: #333;
+            border-radius: 5px;
+            display: inline-block; /* Ensures no unnecessary stretching */
+            transform: scale(1.05);
+            padding: 10px 15px; /* Maintains consistent padding */
+            width: auto; /* Prevents unwanted width adjustments */
+        }
+
+        /* Remove button-specific focus outline */
+        .nav-link:focus, .buttonToLink:focus {
+            outline: none;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .navbar {
+                display: none;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .navbar ul {
+                flex-direction: column;
+            }
+
+            .navbar.active {
+                display: flex;
+            }
+        }
+        .user-menu {
+            position: relative;
+            display: inline-block;
             text-decoration: none;
         }
 
-        .navbar li a:hover {
-            background-color: #6a6a6a;
+        .user-info {
+            font-size: 20px;
+            font-weight: 600;
+            color: #FFFFFF;
+            text-shadow: 0px 0px 8px rgba(0, 200, 255, 0.8);
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.1);
+            display: inline-block;
+            transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
         }
-	.buttonToLink{
-	   background: none;
-	   border: none;
-	   color: white;
-	   font-family: Times New Roman;
-	   font-size:16px;
-	   padding: 14px 16px;
-	   background-color: #808080;
-           overflow: hidden;
-	}
+        .user-menu .user-info:hover {
+            background-color: #333;
+            transform: scale(1.05);
+        }
 
-	.buttonToLink:hover{
-	   background: none;
- 	   background-color: #6a6a6a;
-	}
-        .clearfix::after {
-            content: "";
-            clear: both;
-            display: table;
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #121212;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 10px;
+            width: 180px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
         }
+
+        .dropdown-menu a,
+        .dropdown-menu button {
+            display: flex;
+            color: white;
+            text-shadow: 0px 0px 8px rgba(0, 200, 255, 0.8);
+            text-decoration: none;
+            background: none;
+            border: none;
+            padding: 8px;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out; /* Smooth pop-up effect */
+        }
+
+        .dropdown-menu a:hover,
+        .dropdown-menu button:hover {
+            background-color: #333;
+            border-radius: 5px;
+            width: calc(100% - 16px); /* Centers hover background by compensating for padding */
+            margin: 0 auto; /* Ensures centering */
+            transform: scale(1.05);
+        }
+
     </style>
 </head>
 <body>
-    <!-- Navigation bar -->
-    <div class="navbar clearfix">
-        
-        <ul>
-            <li><a href="http://127.0.0.1:8000">Home</a></li>
-	    {% if user.is_authenticated %}
-	    <li><a href="http://127.0.0.1:8000/accounts/password_change">Change Password</a><li>
-	    <li>
-		<form method="post" action="http://127.0.0.1:8000/accounts/logout/">
-    			{% csrf_token %}
-    			<button type="submit" class="navbar buttonToLink" >Logout</button>
-		</form>
-            </li>
-	    {% else %}
-	    <li><a href="http://127.0.0.1:8000/accounts/login">Login</a></li>
-            <li><a href="http://127.0.0.1:8000/signup">Signup</a></li>
-	    {% endif %}
-        </ul>
-        
+
+    <!-- Header -->
+    <div class="header">
+        <h1><img src="{% static 'images/gt logo.png' %}" alt="GT " style="height: 70px;"></h1>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        <div class="user-menu">
+            {% if user.is_authenticated %}
+                <div class="user-info" onclick="toggleDropdown()">
+                    {{ user.username }}
+                </div>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <a href="http://127.0.0.1:8000/accounts/password_change">Change Password</a>
+                    <form method="post" action="http://127.0.0.1:8000/accounts/logout/">
+                        {% csrf_token %}
+                        <button type="submit">Logout</button>
+                    </form>
+                </div>
+            {% else %}
+                <a href="http://127.0.0.1:8000/accounts/login" class="user-info">Login</a>
+            {% endif %}
+        </div>
     </div>
 
-    <hr>
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <ul>
+            <li><a href="http://127.0.0.1:8000/" class="nav-link">Home</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="http://127.0.0.1:8000/index" class="nav-link">Search</a></li>
+            {% else %}
+                <li><a href="http://127.0.0.1:8000/signup" class="nav-link">Signup</a></li>
+            {% endif %}
+        </ul>
+    </div>
+
+    <!-- Dynamic Content Section -->
     {% block content %}
     {% endblock %}
+
+    <script>
+        document.querySelectorAll('.nav-link, .buttonToLink').forEach(button => {
+            button.addEventListener('mouseenter', () => {
+                button.style.transform = 'scale(1.05)';
+            });
+
+            button.addEventListener('mouseleave', () => {
+                button.style.transform = 'scale(1)';
+            });
+        });
+        function toggleMenu() {
+            document.querySelector('.navbar').classList.toggle('active');
+        }
+        window.addEventListener("scroll", function () {
+            var navbar = document.querySelector(".navbar");
+            var header = document.querySelector(".header");
+
+            if (window.scrollY > header.clientHeight) {
+                navbar.classList.add("fixed");
+            } else {
+                navbar.classList.remove("fixed");
+            }
+        });
+        function toggleDropdown() {
+            var menu = document.getElementById("dropdownMenu");
+            menu.style.display = (menu.style.display === "block") ? "none" : "block";
+        }
+
+        // Close dropdown if clicked outside
+        window.onclick = function(event) {
+            if (!event.target.matches('.user-info')) {
+                var dropdowns = document.getElementsByClassName("dropdown-menu");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.style.display === "block") {
+                        openDropdown.style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+
+
 </body>
 </html>
