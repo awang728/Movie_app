@@ -10,14 +10,16 @@
     </div>
 
 {% if movie_list %}
+    <div id = "container">
     {% for movie in movie_list %}
-<div style = "height: 400px; width: 250px; margin: 15px 20px 30px 20px;" class = "listOfMovies">
+<div class = "listOfMovies">
     <img class = "movieImg" src="{{ movie.image.url }}" alt="{{ movie.movie_name }}">
     <h2 class = "inlist">{{ movie.movie_name }}</h2>
     <!-- <a href="{% url 'movieStore:detail' movie.id %}">{{ movie.movie_name }}</a> -->
     <p class = "inlist">{{ movie.release_year }} ⦁ {{ movie.rating }}</p>
     <p class = "inlist">${{ movie.dollar_price }}</p>
 </div>    {% endfor %}
+    </div>
 {% else %}
     <div><p>No movies found with '{{ request.GET.q }}'.</p></div>
 {% endif %}
