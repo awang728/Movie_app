@@ -1,38 +1,33 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from django.contrib.auth.models import User
-from django.http import HttpResponse
-
-from django.shortcuts import  render
 from django.views import generic
+from django.contrib.auth.decorators import login_required
 
-from .models import Movie, Cart, Review
+from .models import Movie, Review, Cart
 
 
-# Create your views here.
 def home(request):
-    count= User.objects.count()
-    return render(request, 'home.html',{'count':count})
+    count = User.objects.count()
+    return render(request, "home.html", {"count": count})
 
-# Create your views here.
+
 class IndexView(generic.ListView):
-    template_name = "movieStore/movies.html"
+    template_name = "movieStore/index.html"
     context_object_name = "movie_list"
 
     def get_queryset(self):
-        query = self.request.GET.get('q')
+        query = self.request.GET.get("q")
         if query:
-            return Movie.objects.filter(movie_name__icontains=query).order_by('movie_name')
-        return Movie.objects.all().order_by('movie_name')
+            return Movie.objects.filter(movie_name__icontains=query)
+        return Movie.objects.all()
+
 
 class DetailView(generic.DetailView):
     model = Movie
     template_name = "movieStore/detail.html"
-    context_object_name = "review_list"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["review_list"] = Review.objects.filter(movie=self.object).order_by('-date')
-        return context
+
 
 def show(request, id):
     movie = get_object_or_404(Movie, id=id)
@@ -50,7 +45,7 @@ def create_review(request, id):
         comment = request.POST.get("comment", "").strip()
 
         if not comment:
-            messages.error(request, "Your current review is empty!")
+            messages.error(request, "Your current review is empty!") # Asked ChatGPT to give recommendations on what to improve, it recommended adding messages so I did that for all.
             return redirect("detail", pk=id)
 
         # Create and save the review
@@ -93,20 +88,5 @@ def delete_review(request, id, review_id):
     messages.success(request, "Your review was successfully deleted.")
     return redirect("detail", id=id)
 
-def cart(request):
-    if request.user.is_authenticated:
-        cart_items = Cart.objects.filter(user=request.user)
-        return HttpResponse(request, 'cart.html', {'cart_items': cart_items})
-    else:
-        return redirect('signup')
 
-def add_movie_to_cart(request, pk):
-    if request.user.is_authenticated:
-        movie = Movie.objects.get(pk=pk)
-        cart_item, created = Cart.objects.get_or_create(userName=request.user, movie_id=movie)
-        if not created:
-            cart_item.quantity += 1
-            cart_item.save()
-        return redirect('cart')  # Redirect to cart page
-    else:
-        return redirect('signup')
+
