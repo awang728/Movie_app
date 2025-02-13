@@ -30,6 +30,7 @@ class Cart(models.Model):
     userName = models.ForeignKey(User, on_delete=models.CASCADE)
     movie_name = models.ForeignKey(Movie, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
+
     
 class Review(models.Model):
     id = models.AutoField(primary_key=True)
@@ -42,3 +43,11 @@ class Review(models.Model):
 
     def __str__(self):
         return str(self.id) + ' - ' + self.movie.name
+class Order(models.Model):
+    id = models.AutoField(primary_key=True)
+    total_price = models.IntegerField()
+    date = models.DateTimeField(auto_now_add=True)
+    user_name = models.ForeignKey(User,
+        on_delete=models.CASCADE)
+    def __str__(self):
+        return str(self.id) + ' - ' + self.user.username

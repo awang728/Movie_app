@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Movie, Review
+from .models import Movie, Review, Order
+
 
 class MovieAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -10,5 +11,6 @@ class MovieAdmin(admin.ModelAdmin):
     list_filter = ["release_date"]
     search_fields = ["movie_name"]
 
+admin.site.register(Order)
 admin.site.register(Movie, MovieAdmin)
 admin.site.register(Review)
