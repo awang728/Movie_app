@@ -1,9 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-   <p>Welcome to GT Movies Store, visitor!</p>
-   <p>Please login or Signup to access our Website</p>
-   <p>
-	<strong>Total users registered: </strong> {{count}}
+   <h2>Welcome to GT Movie Store!</h2>
+   <p>GT Movie Store is an exclusive platform for <strong>Georgia Tech faculty and alumni</strong> to purchase movies.</p>
+   <p>Browse our collection of classic and latest movies, curated specifically for the GT community.</p>
+   <p>To explore and purchase movies, please
+   <a href="http://127.0.0.1:8000/accounts/login" style="color: #00C8FFCC; font-weight: bold;">log in</a>
+   or
+   <a href="http://127.0.0.1:8000/signup" style="color: #00C8FFCC; font-weight: bold;">sign up</a>.
    </p>
+   <h3>Why Choose GT Movie Store?</h3>
+   <ul>
+       <li>Exclusive access for Georgia Tech faculty and alumni</li>
+       <li>Wide selection of movies at great prices</li>
+       <li>Secure and user-friendly experience</li>
+   </ul>
+
+   <p><strong>Total registered users:</strong> {{ count }}</p>
 {% endblock %}
