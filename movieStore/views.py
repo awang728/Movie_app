@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 
 from django.shortcuts import  render
 from django.views import generic
@@ -33,20 +34,20 @@ class DetailView(generic.DetailView):
         context["review_list"] = Review.objects.filter(movie=self.object).order_by('-date')
         return context
 
-
-def add_movie_to_cart(request, movie_id):
+def cart(request):
     if request.user.is_authenticated:
-        movie = Movie.objects.get(id=movie_id)
-        cart_item, created = Cart.objects.get_or_create(user=request.user_name, movie=movie)
+        cart_items = Cart.objects.filter(user=request.user)
+        return HttpResponse(request, 'cart.html', {'cart_items': cart_items})
+    else:
+        return redirect('signup')
+
+def add_movie_to_cart(request, pk):
+    if request.user.is_authenticated:
+        movie = Movie.objects.get(pk=pk)
+        cart_item, created = Cart.objects.get_or_create(userName=request.user, movie_id=movie)
         if not created:
             cart_item.quantity += 1
             cart_item.save()
         return redirect('cart')  # Redirect to cart page
-    else:
-        return redirect('signup')
-def cart(request):
-    if request.user.is_authenticated:
-        cart_items = Cart.objects.filter(user=request.user)
-        return render(request, 'cart.html', {'cart_items': cart_items})
     else:
         return redirect('signup')

@@ -11,10 +11,10 @@
 </div>    {% endfor %}
     </div>
 {% else %}
-    <div><p style = "margin-left: 20px;">No movies found with </p></div>
+    <div><p style = "margin-left: 20px;">No reviews yet </p></div>
 {% endif %}
 
-    <a href = "{% url 'add-to-cart' movie_id=movie.movie_id %}">
+    <a href="{% url 'movieStore:add_movie_to_cart' pk=view.object.pk %}">
         <button>Buy now</button></a>
 
 {% load static %}
