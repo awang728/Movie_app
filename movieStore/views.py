@@ -1,10 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
-
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import  render
 from django.views import generic
-
-from .models import Movie, Cart
+from django.contrib import messages
+from .models import Movie, Cart, Review
 
 
 # Create your views here.
