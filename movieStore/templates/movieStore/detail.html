@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if review_list %}
+    <div id = "container">
+    {% for review in review_list %}
+<div class = "listOfReviews">
+    <h2 class = "inlist">{{ review.user }}</h2>
+    <p class = "inlist">{{ review.date }} ⦁ {{ review.movie }}</p>
+    <p class = "inlist">${{ review.comment }}</p>
+</div>    {% endfor %}
+    </div>
+{% else %}
+    <div><p style = "margin-left: 20px;">No movies found with </p></div>
+{% endif %}
+
+    <a href = "{% url 'add-to-cart' movie_id=movie.movie_id %}">
+        <button>Buy now</button></a>
+
+{% load static %}
+    <link rel="stylesheet" href="{% static 'movieStore/detailing.css' %}">
+{% endblock %}

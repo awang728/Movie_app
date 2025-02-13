@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import  render
 from django.views import generic
 
-from .models import Movie, Cart
+from .models import Movie, Cart, Review
 
 
 # Create your views here.
@@ -26,6 +26,12 @@ class IndexView(generic.ListView):
 class DetailView(generic.DetailView):
     model = Movie
     template_name = "movieStore/detail.html"
+    context_object_name = "review_list"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["review_list"] = Review.objects.filter(movie=self.object).order_by('-date')
+        return context
 
 
 def add_movie_to_cart(request, movie_id):

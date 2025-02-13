@@ -3,29 +3,40 @@
 {% block content %}
     <div id = "searchbar">
     <form method="get" action="{% url 'movieStore:movies' %}">
-        <input style = "width: 400px" type="text" name="q" class = "searching"
-               placeholder="Search for a movie..." value="{{ request.GET.q }}">
-        <button type="submit" class = "searching">Search</button>
+        <input style = "height: 30px; width: 400px; border-radius: 30px; padding-left: 14px; margin-right: 8px; border: none;"
+               type="text" name="q" class = "searching" placeholder="Find a movie..." value="{{ request.GET.q }}">
+        <style>
+            #searchbutton {
+                border-radius: 10px; height: 30px; background-color: #eedc82;
+                border: none;
+            }
+            #searchbutton:hover {
+                background-color: #eba900;
+            }
+        </style>
+        <button id = "searchbutton"
+                type="submit" class = "searching">Search</button>
     </form>
     </div>
 
 {% if movie_list %}
     <div id = "container">
     {% for movie in movie_list %}
+        <a href = "{% url 'movieStore:detail' pk=movie.pk %}" style = "text-decoration: none; color: inherit;">
 <div class = "listOfMovies">
     <img class = "movieImg" src="{{ movie.image.url }}" alt="{{ movie.movie_name }}">
     <h2 class = "inlist">{{ movie.movie_name }}</h2>
-    <!-- <a href="{% url 'movieStore:detail' movie.id %}">{{ movie.movie_name }}</a> -->
     <p class = "inlist">{{ movie.release_year }} ⦁ {{ movie.rating }}</p>
     <p class = "inlist">${{ movie.dollar_price }}</p>
-</div>    {% endfor %}
+</div>
+        </a>
+    {% endfor %}
     </div>
 {% else %}
-    <div><p>No movies found with '{{ request.GET.q }}'.</p></div>
+    <div><p style = "margin-left: 20px;">No movies found with '{{ request.GET.q }}'.</p></div>
 {% endif %}
 
 {% load static %}
     <link rel="stylesheet" href="{% static 'movieStore/style.css' %}">
-    <link rel="stylesheet" href="{% static 'movieStore/movies.css' %}">
 
 {% endblock %}

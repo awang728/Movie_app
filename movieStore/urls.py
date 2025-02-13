@@ -7,7 +7,7 @@ from .views import cart, add_movie_to_cart
 app_name = "movieStore"
 urlpatterns = [
 
-    path("<int:pk>/", views.DetailView.as_view(), name="detail"),
+    path("movies/<int:pk>/", views.DetailView.as_view(), name="detail"),
     path('add-to-cart/<int:movie_id>/', add_movie_to_cart, name='add_to_cart'),
     path('cart/', cart, name='cart'),
 
