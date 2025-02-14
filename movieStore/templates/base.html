@@ -71,11 +71,13 @@
     			<button type="submit" class="navbar buttonToLink" >Logout</button>
 		</form>
             </li>
+            <li><a class="nav-link" href="{% url 'cart:index' %}">Cart</a></li>
 	    {% else %}
 	    <li><a href="http://127.0.0.1:8000/accounts/login">Login</a></li>
             <li><a href="http://127.0.0.1:8000/signup">Signup</a></li>
 	    {% endif %}
         </ul>
+       
         
         
     </div>

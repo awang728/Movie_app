@@ -43,11 +43,12 @@ class Review(models.Model):
 
     def __str__(self):
         return str(self.id) + ' - ' + self.movie.name
+
 class Order(models.Model):
     id = models.AutoField(primary_key=True)
-    total_price = models.IntegerField()
+    total = models.IntegerField()
     date = models.DateTimeField(auto_now_add=True)
-    user_name = models.ForeignKey(User,
-        on_delete=models.CASCADE)
+    user_name = models.ForeignKey(User, on_delete=models.CASCADE, related_name='movieStore_orders')
+    
     def __str__(self):
-        return str(self.id) + ' - ' + self.user.username
+        return str(self.id) + ' - ' + self.user_name.username
