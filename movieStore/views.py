@@ -13,7 +13,7 @@ def home(request):
 
 
 class IndexView(generic.ListView):
-    template_name = "movieStore/index.html"
+    template_name = "movieStore/movies.html"
     context_object_name = "movie_list"
 
     def get_queryset(self):
@@ -30,23 +30,26 @@ class DetailView(generic.DetailView):
 
 
 def show(request, id):
-    movie = get_object_or_404(Movie, id=id)
+    movie = get_object_or_404(Movie, movie_id=id)
     reviews = Review.objects.filter(movie=movie)
-    return render(
-        request, "movieStore/show.html", {"title": movie.movie_name, "movie": movie, "reviews": reviews}
-    )
+    template_data = {}
+    template_data['title'] = movie.movie_name
+    template_data['movie'] = movie
+    template_data['reviews'] = reviews
+    return render(request, 'movieStore/show.html',
+                  {'template_data': template_data})
 
 
 @login_required
 def create_review(request, id):
-    movie = get_object_or_404(Movie, id=id)
+    movie = get_object_or_404(Movie, movie_id=id)
 
     if request.method == "POST":
         comment = request.POST.get("comment", "").strip()
 
         if not comment:
             messages.error(request, "Your current review is empty!") # Asked ChatGPT to give recommendations on what to improve, it recommended adding messages so I did that for all.
-            return redirect("detail", pk=id)
+            return redirect("movieStore:show", movie_id=id)
 
         # Create and save the review
         Review.objects.create(
@@ -56,15 +59,16 @@ def create_review(request, id):
         )
         messages.success(request, "Thanks for leaving a review!")
 
-    return redirect("detail", id=id)
+    return redirect("movieStore:show", id=movie.movie_id)
 
 @login_required
 def edit_review(request, id, review_id):
     review = get_object_or_404(Review, id=review_id)
+    movie = get_object_or_404(Movie, movie_id=id)
 
     if request.user != review.user:
         messages.error(request, "Sorry, you cannot edit this review.")
-        return redirect("detail", id=id)
+        return redirect("movieStore:show", id=movie.movie_id)
 
     if request.method == "GET":
         return render(request, "movieStore/edit_review.html", {"title": "Edit Review", "review": review})
@@ -78,15 +82,18 @@ def edit_review(request, id, review_id):
         review.comment = comment
         review.save()
         messages.success(request, "Your review has been updated!")
-        return redirect("detail", id=id)
+        return redirect("movieStore:show", id=movie.movie_id)
 
 
 @login_required
 def delete_review(request, id, review_id):
     review = get_object_or_404(Review, id=review_id, user=request.user)
-    review.delete()
-    messages.success(request, "Your review was successfully deleted.")
-    return redirect("detail", id=id)
+    movie = get_object_or_404(Movie, movie_id=id)
+    if request.method == "POST":  # Only allow deletion via POST request
+        review.delete()
+        return redirect("movieStore:show", id=movie.movie_id)
+        messages.success(request, "Your review was successfully deleted.")
+    return redirect("movieStore:show", id=movie.movie_id)
 
 
 

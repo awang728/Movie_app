@@ -22,7 +22,7 @@
 {% if movie_list %}
     <div id = "container">
     {% for movie in movie_list %}
-        <a href = "{% url 'movieStore:detail' pk=movie.pk %}" style = "text-decoration: none; color: inherit;">
+        <a href = "{% url 'movieStore:show' id=movie.movie_id %}" style = "text-decoration: none; color: inherit;">
 <div class = "listOfMovies">
     <img class = "movieImg" src="{{ movie.image.url }}" alt="{{ movie.movie_name }}">
     <h2 class = "inlist">{{ movie.movie_name }}</h2>
