@@ -22,7 +22,7 @@ class Movie(models.Model):
     image = models.ImageField(upload_to='movie_images/', default='movie_images/default.jpg')
     description = models.TextField()
     dollar_price = models.DecimalField(max_digits=4, decimal_places=2, default=10.00)
-   
+
     def __str__(self):
         return self.movie_name
 
@@ -35,11 +35,6 @@ class Movie(models.Model):
         now = timezone.now().date()
         return now - datetime.timedelta(days=365) <= self.release_date
 
-class Cart(models.Model):
-    userName = models.ForeignKey(User, on_delete=models.CASCADE)
-    movie_id = models.ForeignKey(Movie, on_delete=models.CASCADE)
-    quantity = models.IntegerField(default=1)
-    
 class Review(models.Model):
     id = models.AutoField(primary_key=True)
     comment = models.CharField(max_length=255)

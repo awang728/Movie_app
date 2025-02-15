@@ -1,7 +1,7 @@
 
 from django.urls import path, include
 from . import views
-
+from .views import cart, add_movie_to_cart
 
 
 app_name = "movieStore"

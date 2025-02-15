@@ -7,11 +7,12 @@ from django.contrib.auth.decorators import login_required
 from .models import Movie, Review, Cart
 
 
+# Create your views here.
 def home(request):
     count = User.objects.count()
     return render(request, "home.html", {"count": count})
 
-
+# Create your views here.
 class IndexView(generic.ListView):
     template_name = "movieStore/movies.html"
     context_object_name = "movie_list"
@@ -21,7 +22,6 @@ class IndexView(generic.ListView):
         if query:
             return Movie.objects.filter(movie_name__icontains=query)
         return Movie.objects.all()
-
 
 class DetailView(generic.DetailView):
     model = Movie

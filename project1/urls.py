@@ -23,6 +23,7 @@ urlpatterns = [
     path('', include('core.urls')),
     path('', include(('movieStore.urls', 'movieStore'))),
     path('admin/', admin.site.urls),
+    path('cart/', include(('cart.urls', 'cart'))),
 ]
 
 if settings.DEBUG:
