@@ -8,56 +8,95 @@
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
   }
 </style>
-<div class="p-3">
-  <div class="container">
-    <div class="row mt-3">
-      <div class="col-md-6 mx-auto mb-3">
-        <h2>{{ template_data.movie.name }}</h2>
-        <hr />
-        <p><b>Description:</b> {{ template_data.movie.description }}</p>
-        <p><b>Price:</b> ${{ template_data.movie.price }}</p>
-        <p class="card-text">
-          <form method="post" action="{% url 'cart:add' id=template_data.movie.movie_id %}">
-            <div class="row">
-              {% csrf_token %}
-              <div class="col-auto">
+<div style = "display: flex; height: 500px;  margin: 30px">
+<div>
+   <img style = "height: 500px;"
+        src="{{ template_data.movie.image.url }}" alt="{{ template_data.movie.movie_name }}">
+</div>
+<div style = "margin-left: 40px; margin-top: -25px;">
+
+
+   <h2 style = "font-size: 50px; margin-bottom: 0px;">{{ template_data.movie.movie_name }}</h2>
+   <hr>
+   <style>
+       .listed{
+           margin-left: 20px;
+           font-size: 18px;
+       }
+       .s{
+           font-size: 23px;
+       }
+       #tobuy {
+           border-radius: 10px; height: 30px; background-color: #eedc82;
+           font-size: 15px;
+           border: none;
+       }
+       #tobuy:hover {
+           background-color: #eba900;
+           cursor: pointer;
+       }
+       .tiny{
+           font-size: 13px;
+           margin: 4px;
+       }
+       .listOfReviews{
+           margin: 10px;
+       }
+       .p-3 {
+           margin: 30px;
+       }
+       .card {
+           margin-left: 20px;
+       }
+   </style>
+   <p class = "listed"><strong class = "s">Release year</strong> - {{ template_data.movie.release_year }}</p>
+   <p class = "listed"><strong class = "s">Age rating</strong> - {{ template_data.movie.rating }}</p>
+   <p class = "listed"><strong class = "s">Description</strong> - {{ template_data.movie.description }}</p>
+    <div class="s" style = "margin: 10px;">
                 <div class="input-group col-auto">
-                  <div class="input-group-text">Quantity
+                  <div style = "margin-left: 10px;" class="input-group-text">Quantity
                     </div>
-                  <input type="number" min="1" max="10"
+                  <input style = "margin-left: 10px;" type="number" min="1" max="10"
                     class="form-control quantity-input"
                     name="quantity" value="1">
                 </div>
               </div>
-              <div class="col-auto">
-                <button class="buttonToLink"
-                  type="submit">Add to cart</button>
-              </div>
-            </div>
-          </form>
-        </p>
+    <a class = "listed" href="{% url 'cart:add' id=template_data.movie.movie_id %}">
+       <button class = "buttonToLink">Buy now ⦁ ${{ template_data.movie.dollar_price }}</button></a>
+</div>
+</div>
+
+
+<div class="p-3">
+  <div class="container">
+    <div class="row mt-3">
+      <div class="col-md-6 mx-auto mb-3">
+
         <h2>Reviews</h2>
         <hr />
-        <ul class="list-group">
+        <div class="list-group">
           {% for review in template_data.reviews %}
-          <li class="list-group-item pb-3 pt-3">
-            <h5 class="card-title">Review by {{ review.user.username }}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">{{ review.date }}</h6>
-            <p class="card-text">{{ review.comment }}</p>
+          <div>
+            <h5 class="card">Review by {{ review.user.username }}</h5>
+            <h6 class="card">{{ review.date }}</h6>
+            <p class="card">{{ review.comment }}</p>
+
+
             {% if user.is_authenticated and user == review.user %}
-                <a class="buttonToLink"class="btn btn-primary btn-sm" href="{% url 'movieStore:edit_review' id=template_data.movie.movie_id review_id=review.id %}">
+                <a style = "margin-left: 15px;"class="buttonToLink"class="btn btn-primary btn-sm" href="{% url 'movieStore:edit_review' id=template_data.movie.movie_id review_id=review.id %}">
                   <i class="fas fa-edit"></i> Edit
                 </a>
-                <form action="{% url 'movieStore:delete_review' id=template_data.movie.movie_id review_id=review.id %}" method="POST" class="d-inline">
+                <p></p>
+                <form style = "margin-left: 15px;" action="{% url 'movieStore:delete_review' id=template_data.movie.movie_id review_id=review.id %}" method="POST" class="d-inline">
                     {% csrf_token %}
                     <button type="submit" class="buttonToLink">
                       <i class="fas fa-trash"></i> Delete
                     </button>
                 </form>
             {% endif %}
-          </li>
+          </div><hr>
           {% endfor %}
-        </ul>
+        </div>
         {% if user.is_authenticated %}
         <div class="container mt-4">
           <div class="row justify-content-center">
@@ -68,7 +107,7 @@
                   <form method="POST" action="{% url 'movieStore:create_review' id=template_data.movie.movie_id %}">
                     {% csrf_token %}
                     <p>
-                      <label for="comment">Comment:</label>
+                        <label for="comment">Comment:</br></label>
                       <textarea name="comment" required class="form-control" id="comment" placeholder="Write your review here..."></textarea>
                     </p>
                     <div class="text-center">
@@ -85,7 +124,6 @@
         {% endif %}
       </div>
       <div class="col-md-6 mx-auto mb-3 text-center">
-        <img src="{{ template_data.movie.image.url }}" class="rounded img-card-400" />
       </div>
     </div>
   </div>

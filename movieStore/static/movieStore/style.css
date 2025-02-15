@@ -6,12 +6,7 @@
     height: 565px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.listOfMovies:hover {
-    background-color: #0892c3;
-    transform: scale(1.05);
-    box-shadow: 7px 7px 18px black;
-    cursor: pointer;
-}
+
 #searchbar {
     display: flex;
     width: 100%;
