@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponse  
-from django.contrib.auth import login, authenticate  
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.decorators import login_required
 from core.forms import UserCreationForm
+from django.contrib.auth.models import User
 """
 from django.contrib.sites.shortcuts import get_current_site  
 from django.utils.encoding import force_bytes, force_text  
@@ -27,3 +28,11 @@ def signup(request):
     else:  
         form = UserCreationForm()    
     return render(request, 'registration/signup.html', {'form':form})
+
+@login_required
+def orders(request):
+    template_data = {}
+    template_data['title'] = 'Orders'
+    template_data['orders'] = request.user.order_set.all()
+    return render(request, 'accounts/orders.html',
+        {'template_data': template_data})
