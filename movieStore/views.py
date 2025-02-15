@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 
-from .models import Movie, Review, Cart
+from .models import Movie, Review
 
 
 # Create your views here.

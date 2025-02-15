@@ -27,15 +27,13 @@
               <tbody>
                 {% for item in order.item_set.all %}
                 <tr>
-                  <td>{{ item.movie.id }}</td>
+                  <td>{{ item.movie.movie_id }}</td>
                   <td>
-                    <a class="link-dark"
-                      href="{% url 'movies.show'
-                      id=item.movie.id %}">
-                      {{ item.movie.name }}
+                    <a class="link-dark" href="{% url 'movieStore:show' id=item.movie.movie_id %}">
+                      {{ item.movie.movie_name }}
                     </a>
                   </td>
-                  <td>${{ item.movie.price }}</td>
+                  <td>${{ item.movie.dollar_price }}</td>
                   <td>{{ item.quantity }}</td>
                 </tr>
                 {% endfor %}

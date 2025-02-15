@@ -38,13 +38,14 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     "movieStore.apps.MovieStoreConfig",
     "core.apps.CoreConfig",
+    "cart.apps.CartConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "cart"
+
 ]
 
 MIDDLEWARE = [

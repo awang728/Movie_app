@@ -1,16 +1,16 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from movieStore.models import Movie, Cart
+from movieStore.models import Movie
 from .utils import calculate_cart_total
 from .models import Order, Item
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
 def add(request, id):
-    get_object_or_404(Movie, id=id)
+    get_object_or_404(Movie, movie_id=id)
     cart = request.session.get('cart', {})
     cart[id] = request.POST['quantity']
     request.session['cart'] = cart
-    return redirect('home.index')
+    return redirect('movieStore:home')
 
 def index(request):
     cart_total = 0
@@ -18,7 +18,7 @@ def index(request):
     cart = request.session.get('cart', {})
     movie_ids = list(cart.keys())
     if movie_ids:
-        movies_in_cart = Movie.objects.filter(id__in=movie_ids)
+        movies_in_cart = Movie.objects.filter(movie_id__in=movie_ids)
         cart_total = calculate_cart_total(cart, movies_in_cart)
     template_data = {
         'title': 'Cart',
@@ -28,30 +28,18 @@ def index(request):
     return render(request, 'cart/index.html', {'template_data': template_data})
 
 def add_to_cart(request, id):
-    get_object_or_404(Movie, id=id)
+    get_object_or_404(Movie, movie_id=id)
     cart = request.session.get('cart', {})
     cart[id] = request.POST['quantity']
     request.session['cart'] = cart
-    return redirect('cart.index')
+    return redirect('cart:index')
 # removing all the elements from the cart
 def clear(request):
     request.session['cart'] = {}
-    return redirect('cart.index')
+    return redirect('cart:index')
 
 # add multiple items of a movie in the cart
-def add_multiple_items_of_movie_to_cart(request, movie_id):
-    if request.user.is_authenticated:
-        qty = int(request.POST.get('quantity', 1))
-        movie = Movie.objects.get(id=movie_id)
-        cart_item, created = Cart.objects.get_or_create(user=request.user, movie=movie)
-        if not created:
-            cart_item.quantity += qty
-        else:
-            cart_item.quantity = qty
-        cart_item.save()
-        return redirect('cart.index')
-    else:
-        return redirect('signup')
+
 
 @login_required
 def purchase(request):
@@ -59,7 +47,7 @@ def purchase(request):
     movie_ids = list(cart.keys())
     if (movie_ids == []):
         return redirect('cart.index')
-    movies_in_cart = Movie.objects.filter(id__in=movie_ids)
+    movies_in_cart = Movie.objects.filter(movie_id__in=movie_ids)
     cart_total = calculate_cart_total(cart, movies_in_cart)
     order = Order()
     order.user = request.user
@@ -68,9 +56,9 @@ def purchase(request):
     for movie in movies_in_cart:
         item = Item()
         item.movie = movie
-        item.price = movie.price
+        item.price = movie.dollar_price
         item.order = order
-        item.quantity = cart[str(movie.id)]
+        item.quantity = cart[str(movie.movie_id)]
         item.save()
     request.session['cart'] = {}
     template_data = {}
