@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
+<style>
+  .list-group-item {
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+</style>
 <div class="p-3">
   <div class="container">
     <div class="row mt-3">
@@ -23,7 +30,7 @@
                 </div>
               </div>
               <div class="col-auto">
-                <button class="btn bg-dark text-white"
+                <button class="buttonToLink"
                   type="submit">Add to cart</button>
               </div>
             </div>
@@ -34,19 +41,18 @@
         <ul class="list-group">
           {% for review in template_data.reviews %}
           <li class="list-group-item pb-3 pt-3">
-            <h5 class="card-title">
-              Review by {{ review.user.username }}
-            </h5>
-            <h6 class="card-subtitle mb-2 text-muted">
-              {{ review.date }}
-            </h6>
+            <h5 class="card-title">Review by {{ review.user.username }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ review.date }}</h6>
             <p class="card-text">{{ review.comment }}</p>
             {% if user.is_authenticated and user == review.user %}
-                <a class="btn btn-primary" href="{% url 'movieStore:edit_review' id=template_data.movie.movie_id review_id=review.id %}">Edit
+                <a class="buttonToLink"class="btn btn-primary btn-sm" href="{% url 'movieStore:edit_review' id=template_data.movie.movie_id review_id=review.id %}">
+                  <i class="fas fa-edit"></i> Edit
                 </a>
-                <form action="{% url 'movieStore:delete_review' id=template_data.movie.movie_id review_id=review.id %}" method="POST">
+                <form action="{% url 'movieStore:delete_review' id=template_data.movie.movie_id review_id=review.id %}" method="POST" class="d-inline">
                     {% csrf_token %}
-                    <button type="submit">Delete Review</button>
+                    <button type="submit" class="buttonToLink">
+                      <i class="fas fa-trash"></i> Delete
+                    </button>
                 </form>
             {% endif %}
           </li>
@@ -58,19 +64,15 @@
             <div class="col-12">
               <div class="card shadow p-3 mb-4 rounded">
                 <div class="card-body">
-                  <b class="text-start">Create a review
-                    </b><br /><br />
+                  <b class="text-start">Create a review</b><br /><br />
                   <form method="POST" action="{% url 'movieStore:create_review' id=template_data.movie.movie_id %}">
                     {% csrf_token %}
                     <p>
                       <label for="comment">Comment:</label>
-                      <textarea name="comment" required
-                      class="form-control"
-                      id="comment"></textarea>
+                      <textarea name="comment" required class="form-control" id="comment" placeholder="Write your review here..."></textarea>
                     </p>
                     <div class="text-center">
-                      <button type="submit"
-                        class="btn bg-dark text-white">
+                      <button type="submit" class="buttonToLink">
                         Add Review
                       </button>
                     </div>
@@ -83,8 +85,7 @@
         {% endif %}
       </div>
       <div class="col-md-6 mx-auto mb-3 text-center">
-        <img src="{{ template_data.movie.image.url }}"
-          class="rounded img-card-400" />
+        <img src="{{ template_data.movie.image.url }}" class="rounded img-card-400" />
       </div>
     </div>
   </div>

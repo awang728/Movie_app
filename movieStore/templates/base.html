@@ -9,6 +9,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
         /* General Styles */
+
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
@@ -95,11 +96,12 @@
             border: none;
             color: white;
         }
-        .nav-link, .buttonToLink {
+        .nav-link {
             background: none;
             border: none;
             color: white;
             font-size: 16px;
+            font-weight: bold;
             padding: 10px 15px;
             text-shadow: 0px 0px 8px rgba(0, 200, 255, 0.8); /* Light blue glow */
             text-decoration: none;
@@ -111,10 +113,35 @@
             border-radius: 5px; /* Ensures buttons have rounded corners */
             transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
         }
+        .nav-link:hover {
+            background-color: #282828;
+            border-radius: 5px;
+            display: inline-block; /* Ensures no unnecessary stretching */
+            transform: scale(1.05);
+            padding: 10px 15px; /* Maintains consistent padding */
+            width: auto; /* Prevents unwanted width adjustments */
+        }
+        .buttonToLink {
+            background: #515151;
+            border: none;
+            color: white;
+            font-size: 16px;
+            padding: 10px 15px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            width: auto;
+            font-family: 'Poppins', sans-serif;
+            font-family: inherit;
+            display: inline-block;
+            border-radius: 5px; /* Ensures buttons have rounded corners */
+            transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+        }
 
         /* Ensure consistent hover effect */
-        .nav-link:hover, .buttonToLink:hover {
-            background-color: #333;
+        .buttonToLink:hover {
+            background-color: white;
+            color:black;
             border-radius: 5px;
             display: inline-block; /* Ensures no unnecessary stretching */
             transform: scale(1.05);
