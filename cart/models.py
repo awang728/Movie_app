@@ -20,4 +20,4 @@ class Item(models.Model):
     movie = models.ForeignKey(Movie,
         on_delete=models.CASCADE)
     def __str__(self):
-        return str(self.id) + ' - ' + self.movie.name
+        return str(self.id) + ' - ' + self.movie.movie_name

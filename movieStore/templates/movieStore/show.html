@@ -7,48 +7,55 @@
     margin-bottom: 10px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
   }
+
+  .container {
+     margin-left: 30px; /* Adjust as needed */
+  }
+
+
+  /* New Style */
+  .movie-container {
+    display: flex;
+    flex-direction: row; /* Default: side-by-side */
+    margin: 30px;
+  }
+
+  .movie-container img {
+    height: 400px;
+  }
+
+  .movie-container h2 {
+    font-size: 50px;
+  }
+
+  /* Mobile-specific styles */
+  @media screen and (max-width: 768px) {
+    .movie-container {
+      flex-direction: column; /* Stack vertically on mobile */
+      align-items: center; /* Center-align the content */
+    }
+
+    .movie-container img {
+      height: 300px; /* Adjust image size for mobile */
+    }
+
+    .movie-container h2 {
+      font-size: 40px; /* Adjust title size for mobile */
+    }
+  }
+
 </style>
-<div style = "display: flex; height: 500px;  margin: 30px">
-<div>
-   <img style = "height: 500px;"
-        src="{{ template_data.movie.image.url }}" alt="{{ template_data.movie.movie_name }}">
-</div>
-<div style = "margin-left: 40px; margin-top: -25px;">
+
+<div class="movie-container">
+  <div>
+    <img src="{{ template_data.movie.image.url }}" alt="{{ template_data.movie.movie_name }}">
+  </div>
+  <div style="margin-left: 30px; margin-top: none;">
+    <h2>{{ template_data.movie.movie_name }}</h2>
+        <hr  />
 
 
-   <h2 style = "font-size: 50px; margin-bottom: 0px;">{{ template_data.movie.movie_name }}</h2>
-   <hr>
-   <style>
-       .listed{
-           margin-left: 20px;
-           font-size: 18px;
-       }
-       .s{
-           font-size: 23px;
-       }
-       #tobuy {
-           border-radius: 10px; height: 30px; background-color: #eedc82;
-           font-size: 15px;
-           border: none;
-       }
-       #tobuy:hover {
-           background-color: #eba900;
-           cursor: pointer;
-       }
-       .tiny{
-           font-size: 13px;
-           margin: 4px;
-       }
-       .listOfReviews{
-           margin: 10px;
-       }
-       .p-3 {
-           margin: 30px;
-       }
-       .card {
-           margin-left: 20px;
-       }
-   </style>
+
    <p class = "listed"><strong class = "s">Release year</strong> - {{ template_data.movie.release_year }}</p>
    <p class = "listed"><strong class = "s">Age rating</strong> - {{ template_data.movie.rating }}</p>
    <p class = "listed"><strong class = "s">Description</strong> - {{ template_data.movie.description }}</p>
@@ -66,12 +73,12 @@
         <a class = "listed" href="{% url 'cart:add' id=template_data.movie.movie_id %}">
            <button class = "buttonToLink">Buy now ⦁ ${{ template_data.movie.dollar_price }}</button></a>
    </form>
+  </div>
 </div>
 </div>
-
 
 <div class="p-3">
-  <div class="container">
+  <div class="container" >
     <div class="row mt-3">
       <div class="col-md-6 mx-auto mb-3">
 
@@ -86,11 +93,11 @@
 
 
             {% if user.is_authenticated and user == review.user %}
-                <a style = "margin-left: 15px;"class="buttonToLink"class="btn btn-primary btn-sm" href="{% url 'movieStore:edit_review' id=template_data.movie.movie_id review_id=review.id %}">
+                <a class="buttonToLink"class="btn btn-primary btn-sm" href="{% url 'movieStore:edit_review' id=template_data.movie.movie_id review_id=review.id %}">
                   <i class="fas fa-edit"></i> Edit
                 </a>
                 <p></p>
-                <form style = "margin-left: 15px;" action="{% url 'movieStore:delete_review' id=template_data.movie.movie_id review_id=review.id %}" method="POST" class="d-inline">
+                <form action="{% url 'movieStore:delete_review' id=template_data.movie.movie_id review_id=review.id %}" method="POST" class="d-inline">
                     {% csrf_token %}
                     <button type="submit" class="buttonToLink">
                       <i class="fas fa-trash"></i> Delete
@@ -101,7 +108,7 @@
           {% endfor %}
         </div>
         {% if user.is_authenticated %}
-        <div class="container mt-4">
+        <div class="container mt-4" style="margin-left: 0;">
           <div class="row justify-content-center">
             <div class="col-12">
               <div class="card shadow p-3 mb-4 rounded">
@@ -125,8 +132,6 @@
           </div>
         </div>
         {% endif %}
-      </div>
-      <div class="col-md-6 mx-auto mb-3 text-center">
       </div>
     </div>
   </div>

@@ -21,6 +21,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+SITE_URL = 'https://achackieth3.pythonanywhere.com/'
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
@@ -30,7 +32,7 @@ SECRET_KEY = "django-insecure-g=vjlvt9p%h(_u#k$j7u2an5g7%chf)*0b$u70m@lbe@uebag%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -125,8 +127,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'movieStore/static/'
-STATICFILES_DIRS = [BASE_DIR / "movieStore/static"]
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'movieStore', 'static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 
 
 # Default primary key field type
